@@ -3,13 +3,14 @@ package com.todo_applcation.serviceImpl;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.todo_applcation.exception.ResourceNotFoundException;
 import com.todo_applcation.model.User;
-import com.todo_applcation.repository.UserRepository;
+import com.todo_applcation.repository.UserListRepository;
 import com.todo_applcation.requestDto.UserRequestDTO;
 import com.todo_applcation.responseDto.UserResponseDTO;
 import com.todo_applcation.service.UserService;
@@ -20,7 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class UserServiceImpl implements UserService {
 	@Autowired
-	UserRepository userRepository;
+	UserListRepository userRepository;
 	@Autowired
 	ObjectMapper objMapper;
 
@@ -53,17 +54,17 @@ public class UserServiceImpl implements UserService {
 		Optional<User> user = userRepository.findById(id);
 
 		if (user.isPresent()) {
-			User userUpdated = user.get();
+			User userUpdated = objMapper.convertValue(request, User.class);
 			userUpdated.setId(id);
-			User updatedUser = userRepository.save(userUpdated);
+			userRepository.save(userUpdated);
 			log.info("updated succeffully");
-			return new UserResponseDTO(updatedUser);
+			return new UserResponseDTO(userUpdated);
 
 		} else {
 			log.info("given id is not found");
 			throw new ResourceNotFoundException("id not found");
 		}
-		
+
 	}
 
 	@Override
@@ -81,5 +82,5 @@ public class UserServiceImpl implements UserService {
 		}
 		return res;
 	}
-
+	
 }

@@ -3,8 +3,6 @@ package com.todo_applcation.model;
 
 
 
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,13 +17,21 @@ import lombok.NoArgsConstructor;
 @Entity
 
 public class User {
+	
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
-	private String userName;
+	private String firstName;
+	private String lastName;
 	private String password;
 	private String status;
-	
-	
+	private String email;
+	private String role;
+	public User(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
+
 
 }

@@ -13,6 +13,5 @@ public interface UserService {
 
 	UserResponseDTO delete(Integer id)throws Exception;
 
-	
 
 }

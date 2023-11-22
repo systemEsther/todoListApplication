@@ -11,9 +11,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UserResponseDTO {
 	private Integer id;
-	private String userName;
+	private String firstName;
+	private String lastName;
 	private String password;
 	private String status;
+	private String email;
+	private String role;
 	public UserResponseDTO(User user) {
 		BeanUtils.copyProperties(user, this);
 	}
